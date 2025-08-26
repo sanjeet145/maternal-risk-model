@@ -73,7 +73,7 @@ def validateuser(jwttoken):
     except jwt.InvalidTokenError:
         return None
 
-@app.route('/model/maternalrisk', methods=["POST"])
+@app.route('/predict', methods=["POST"])
 def maternal_risk():
     try:
         # check for if data for each columns is present or not if not raise exception
