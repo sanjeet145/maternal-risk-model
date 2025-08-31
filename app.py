@@ -3,54 +3,12 @@ import joblib
 import jwt
 import os
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 load_dotenv()
 
 app = Flask(__name__)
-
-# keys={
-#   "Preexisting_Diabetes":1,
-#   "Mental_Health":1,
-#   "Previous_Complications":1,
-#   "Diastolic":-1.2,
-#   "Gestational_Diabetes":0,
-#   "Systolic_BP":-1.4,
-#   "BS":0.57,
-#   "BMI_Normal":0,
-#   "Age":-0.6,
-#   "Body_Temp":1.46,
-#   "Heart_Rate":0.57
-# }
-
-# {
-#       "Age": 25,
-#       "Systolic_BP": 120,
-#       "Diastolic": 80,
-#       "BS": 90,
-#       "Body_Temp": 98.6,
-#       "Previous_Complications": 1,
-#       "Preexisting_Diabetes": 0,
-#       "Gestational_Diabetes": 0,
-#       "Mental_Health": 0,
-#       "Heart_Rate": 72,
-#       "BMI_Normal": 1
-# }
-
-# {
-#     "Preexisting_Diabetes": 0,
-#     "Mental_Health": 0,
-#     "Previous_Complications": 0,
-#     "Diastolic": 78,
-#     "Gestational_Diabetes": 0,
-#     "Systolic_BP": 120,
-#     "BS": 90,
-#     "BMI_Normal": 1,
-#     "Age": 28,
-#     "Body_Temp": 98.6,
-#     "Heart_Rate": 72
-# }
-
-
+CORS(app)
 
 feature = [
     "Age", "Systolic BP", "Diastolic", "BS", "Body Temp",
@@ -92,11 +50,11 @@ def maternal_risk():
         model = joblib.load("./maternal_risk_model")
         x = [[data.get(name) for name in feature]]
         predicted = model.predict(x)
-        return "High risk" if predicted ==1 else "Low risk"
+        return jsonify({"message":"High risk" if predicted ==1 else "Low risk"}),200
     except Exception as e:
-        print(str(e))
+        # print(str(e))
         return jsonify({"Error":"Something went wrong"}),500
 
 
 if __name__=="__main__":
-    app.run(debug=True, host="0.0.0.0", port=8001)
+    app.run(host="0.0.0.0", port=8001)
