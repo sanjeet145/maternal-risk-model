@@ -8,7 +8,17 @@ from flask_cors import CORS
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(
+    app,
+    resources={r"/*": {"origins": "*"}},
+    supports_credentials=True,
+    allow_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "OPTIONS"]
+)
+# @app.before_request
+# def basic_authentication():
+#     if request.method.lower() == 'options':
+#         return jsonify({"message": "CORS preflight"}), 200
 
 feature = [
     "Age", "Systolic BP", "Diastolic", "BS", "Body Temp",
