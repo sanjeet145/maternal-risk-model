@@ -12,7 +12,7 @@ CORS(
     app,
     resources={r"/*": {"origins": "*"}},
     supports_credentials=True,
-    allow_headers=["Content-Type", "Authorization"],
+    allow_headers=["Content-Type", "Authorization", "Access-Control-Allow-Credentials", "Access-Control-Allow-Origin","*"],
     methods=["GET", "POST", "OPTIONS"]
 )
 # @app.before_request
